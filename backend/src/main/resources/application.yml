@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: finopaladar-backend
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  servlet:
+    multipart:
+      max-file-size: ${UPLOAD_IMAGE_MAX_FILE_SIZE:5MB}
+      max-request-size: ${UPLOAD_IMAGE_MAX_REQUEST_SIZE:5MB}
+
+server:
+  port: ${SERVER_PORT:8080}
+
+pedido:
+  taxa-entrega: ${DELIVERY_FEE:0.00}
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:finopaladar-local-development-secret-change-in-production}
+    expiration-minutes: ${JWT_EXPIRATION_MINUTES:120}
+
+whatsapp:
+  numero: ${WHATSAPP_PHONE_NUMBER:}
+
+upload:
+  imagens:
+    max-size-bytes: ${UPLOAD_IMAGE_MAX_SIZE_BYTES:5242880}
+    produtos:
+      diretorio: ${UPLOAD_IMAGE_DIR:uploads/produtos}
+      url-prefix: ${UPLOAD_IMAGE_URL_PREFIX:/uploads/produtos}

@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: "${DB_NAME:-finopaladar}"
+      POSTGRES_USER: "${DB_USERNAME:-postgres}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD:-postgres}"
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: finopaladar-backend:local
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_PORT: "${SERVER_PORT:-8080}"
+      DATABASE_URL: "jdbc:postgresql://postgres:5432/${DB_NAME:-finopaladar}"
+      DB_USERNAME: "${DB_USERNAME:-postgres}"
+      DB_PASSWORD: "${DB_PASSWORD:-postgres}"
+      DELIVERY_FEE: "${DELIVERY_FEE:-0.00}"
+      JWT_SECRET: "${JWT_SECRET:-change-this-secret-with-at-least-32-characters}"
+      JWT_EXPIRATION_MINUTES: "${JWT_EXPIRATION_MINUTES:-120}"
+      WHATSAPP_PHONE_NUMBER: "${WHATSAPP_PHONE_NUMBER:-}"
+      UPLOAD_IMAGE_DIR: "${UPLOAD_IMAGE_DIR:-uploads/produtos}"
+      UPLOAD_IMAGE_URL_PREFIX: "${UPLOAD_IMAGE_URL_PREFIX:-/uploads/produtos}"
+      UPLOAD_IMAGE_MAX_SIZE_BYTES: "${UPLOAD_IMAGE_MAX_SIZE_BYTES:-5242880}"
+      UPLOAD_IMAGE_MAX_FILE_SIZE: "${UPLOAD_IMAGE_MAX_FILE_SIZE:-5MB}"
+      UPLOAD_IMAGE_MAX_REQUEST_SIZE: "${UPLOAD_IMAGE_MAX_REQUEST_SIZE:-5MB}"
+    ports:
+      - "${SERVER_PORT:-8080}:${SERVER_PORT:-8080}"
+    volumes:
+      - produto_uploads:/app/uploads/produtos
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:$${SERVER_PORT:-8080}/api/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 45s
+
+volumes:
+  postgres_data:
+  produto_uploads:

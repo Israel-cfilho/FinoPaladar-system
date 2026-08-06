@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+
+  --color-cream-50: #fdf8f3;
+  --color-cream-100: #f9f0e6;
+  --color-cream-200: #f0e0cc;
+
+  --color-caramel-300: #d4a574;
+  --color-caramel-400: #c4895a;
+  --color-caramel-500: #a86b3f;
+  --color-caramel-600: #8b4513;
+  --color-caramel-700: #6d3610;
+  --color-caramel-800: #4a240b;
+
+  --color-rose-100: #fce8e4;
+  --color-rose-200: #f5d0c8;
+  --color-rose-400: #d4847a;
+
+  --color-sage-400: #7a9b76;
+  --color-sage-500: #5f7d5b;
+
+  --color-ink-700: #3d2c24;
+  --color-ink-800: #2a1f1a;
+  --color-ink-900: #1a1210;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+  }
+
+  body {
+    @apply bg-cream-50 font-sans text-ink-800;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-serif text-ink-900;
+  }
+}

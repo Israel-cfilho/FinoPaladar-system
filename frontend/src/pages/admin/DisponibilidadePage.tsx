@@ -15,7 +15,7 @@ function makeEmptyForm(): DisponibilidadeProdutoRequest {
   }
 }
 
-export default function DisponibilidadePage() {
+export function DisponibilidadePage() {
   const { data, error, isLoading, mutate } = useSWR("admin-disponibilidade", () =>
     disponibilidadeService.listar(),
   )

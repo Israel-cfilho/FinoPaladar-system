@@ -13,7 +13,7 @@ const emptyForm: ProdutoRequest = {
   ativo: true,
 }
 
-export default function ProdutosPage() {
+export function ProdutosPage() {
   const { data, error, isLoading, mutate } = useSWR("admin-produtos", () => produtoService.listarAdmin())
 
   const [modalOpen, setModalOpen] = useState(false)

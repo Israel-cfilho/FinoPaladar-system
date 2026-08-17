@@ -8,7 +8,7 @@ import { OrderDetails } from "@/components/OrderDetails"
 
 const statusOptions = Object.values(StatusPedido)
 
-export default function PedidosPage() {
+export function PedidosPage() {
   const [codigo, setCodigo] = useState("")
   const [pedido, setPedido] = useState<PedidoResponse | null>(null)
   const [loading, setLoading] = useState(false)

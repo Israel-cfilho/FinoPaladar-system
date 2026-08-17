@@ -3,11 +3,11 @@ import { useNavigate, useLocation } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth"
 import { Button, Input, Field, Card } from "../../components/ui"
 
-export default function LoginPage() {
+export function LoginPage() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
-  const from = (location.state as { from?: string })?.from ?? "/admin/dashboard"
+  const from = (location.state as { from?: string })?.from ?? "/admin"
 
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")

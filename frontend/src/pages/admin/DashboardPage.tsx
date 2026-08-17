@@ -20,7 +20,7 @@ function StatCard({
   )
 }
 
-export default function DashboardPage() {
+export function DashboardPage() {
   const { data, error, isLoading, mutate } = useSWR("dashboard-resumo", () =>
     dashboardService.resumo(),
   )
